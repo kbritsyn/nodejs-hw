@@ -1,0 +1,25 @@
+{
+  "name": "nodejs-hw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "task1_1": "nodemon task1_1.js",
+    "task1_2": "nodemon task1_2.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kbritsyn/nodejs-hw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kbritsyn/nodejs-hw/issues"
+  },
+  "homepage": "https://github.com/kbritsyn/nodejs-hw#readme",
+  "dependencies": {
+    "@types/node": "^14.0.27",
+    "csvtojson": "^2.0.10"
+  }
+}
