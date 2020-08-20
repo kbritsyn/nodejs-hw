@@ -1,10 +1,1 @@
-const readline = require('readline');
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-rl.on('line', line => {
-    process.stdout.write(`${line.split('').reverse().join('')}\n`);
-});
+process.stdin.on('data', (data) => process.stdout.write(`${data.toString().split('').reverse().join('')}\n`));
