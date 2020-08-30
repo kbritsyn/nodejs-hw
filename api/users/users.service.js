@@ -11,15 +11,19 @@ export const usersService = {
                 .slice()
                 .sort((a, b) => a.login?.localeCompare(b.login))
                 .slice(0, +limit)
-            )
+            );
         } else {
             res.json(users);
         }
     },
 
     getUserById: (req, res) => {
-        const user = users.find(user => user.id === req.params.id);
-        user ? res.json(user) : res.status(404).json();
+        const user = users.find(usr => usr.id === req.params.id);
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json();
+        }
     },
 
     createUser: (req, res) => {
@@ -29,22 +33,22 @@ export const usersService = {
     },
 
     updateUser: (req, res) => {
-        let userIdx = users.findIndex(user => user.id === req.params.id);
+        const userIdx = users.findIndex(user => user.id === req.params.id);
         if (userIdx !== -1) {
             users[userIdx] = { ...users[userIdx], ...req.body };
             res.json(users[userIdx]);
         } else {
-            res.status(404).json(); 
+            res.status(404).json();
         }
     },
 
     removeUser: (req, res) => {
-        let user = users.find(user => user.id === req.params.id);
+        const user = users.find(usr => usr.id === req.params.id);
         if (user) {
             user.isDeleted = true;
             res.json(true);
         } else {
-            res.status(404).json(); 
+            res.status(404).json();
         }
     }
-}
+};

@@ -2,7 +2,6 @@ import { v4 as uuid } from 'uuid';
 import Joi from 'joi';
 
 export class User {
-
     constructor(user) {
         this.login = user.login;
         this.password = user.password;
