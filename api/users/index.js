@@ -1,17 +1,17 @@
 import { Router } from 'express';
-import { userSchema } from './user.model';
+import { userSchema } from './user.validation';
 import { validateSchema } from '../../middlewares/schema';
-import { usersService } from './users.service';
+import { usersController } from './users.controller';
 
 const usersRouter = Router();
 
 usersRouter.route('/')
-    .get(usersService.getUsers)
-    .post(validateSchema(userSchema), usersService.createUser);
+    .get(usersController.getUsers)
+    .post(validateSchema(userSchema), usersController.createUser);
 
 usersRouter.route('/:id')
-    .get(usersService.getUserById)
-    .put(validateSchema(userSchema), usersService.updateUser)
-    .delete(usersService.removeUser);
+    .get(usersController.getUserById)
+    .put(validateSchema(userSchema), usersController.updateUser)
+    .delete(usersController.removeUser);
 
 export { usersRouter };

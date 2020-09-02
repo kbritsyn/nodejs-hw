@@ -6,6 +6,7 @@ export const validateSchema = (schema) => (req, res, next) => {
     if (error) {
         res.status(400).json(error.details);
     } else {
+        // eslint-disable-next-line callback-return
         next();
     }
-}
+};
