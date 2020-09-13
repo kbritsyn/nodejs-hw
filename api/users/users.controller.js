@@ -1,41 +1,53 @@
 import { usersService } from './users.service';
 
 export const usersController = {
-    getUsers: (req, res) => {
+    getUsers: async (req, res) => {
         const { loginSubstring, limit } = req.query;
-        const users = usersService.getUsers(loginSubstring, limit);
-        res.json(users);
-    },
-
-    getUserById: (req, res) => {
         try {
-            const user = usersService.getUserById(req.params.id);
-            res.json(user);
-        } catch (errorStatus) {
-            res.status(errorStatus).json();
+            const users = await usersService.getUsers(loginSubstring, limit);
+            res.json(users);
+        } catch (error) {
+            res.status(500).json(error);
         }
     },
 
-    createUser: (req, res) => {
-        const newUser = usersService.createUser(req.body);
-        res.json(newUser);
-    },
-
-    updateUser: (req, res) => {
+    getUserById: async (req, res) => {
         try {
-            const user = usersService.updateUser(req.params.id, req.body);
-            res.json(user);
-        } catch (errorStatus) {
-            res.status(errorStatus).json();
+            const user = await usersService.getUserById(req.params.id);
+            if (user) {
+                res.json(user);
+            } else {
+                res.status(404).json();
+            }
+        } catch (error) {
+            res.status(500).json(error);
         }
     },
 
-    removeUser: (req, res) => {
+    createUser: async (req, res) => {
         try {
-            const removed = usersService.removeUser(req.params.id);
+            const newUser = await usersService.createUser(req.body);
+            res.json(newUser);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    },
+
+    updateUser: async (req, res) => {
+        try {
+            const user = await usersService.updateUser(req.params.id, req.body);
+            res.json(user);
+        } catch (error) {
+            res.status(500).json();
+        }
+    },
+
+    removeUser: async (req, res) => {
+        try {
+            const removed = await usersService.removeUser(req.params.id);
             res.json(removed);
-        } catch (errorStatus) {
-            res.status(errorStatus).json();
+        } catch (error) {
+            res.status(500).json(error);
         }
     }
 };

@@ -1,12 +1,24 @@
 import { v4 as uuid } from 'uuid';
+import { sequelize } from '../../sequelize';
+import { DataTypes } from 'sequelize';
 
-export class User {
-    constructor(user) {
-        this.login = user.login;
-        this.password = user.password;
-        this.age = user.age;
-        this.id = uuid();
-        this.isDeleted = false;
+export const User = sequelize.define('User', {
+    login: {
+        type: DataTypes.STRING
+    },
+    password: {
+        type: DataTypes.STRING
+    },
+    age: {
+        type: DataTypes.NUMBER
+    },
+    id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        defaultValue: uuid
+    },
+    isDeleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
-}
-
+}, { createdAt: false, updatedAt: false });

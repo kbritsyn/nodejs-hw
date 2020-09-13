@@ -1,48 +1,62 @@
 import { User } from './user.model';
-
-const users = [];
+import { Op } from 'sequelize';
 
 export const usersService = {
-    getUsers: (loginSubstring, limit) => {
+    getUsers: async (loginSubstring, limit) => {
         if (loginSubstring && limit) {
-            return users
-                .filter(user => user.login?.includes(loginSubstring))
-                .slice()
-                .sort((a, b) => a.login?.localeCompare(b.login))
-                .slice(0, +limit);
+            return await User.findAll({
+                where: {
+                    login: {
+                        [Op.like]: `${loginSubstring}%`
+                    }
+                },
+                order: [['login', 'ASC']],
+                limit
+            });
         }
-        return users;
+        return await User.findAll();
     },
 
-    getUserById: (id) => {
-        const user = users.find(usr => usr.id === id);
-        if (!user) {
-            throw 404;
+    getUserById: async (id) => {
+        try {
+            return await User.findByPk(id);
+        } catch (error) {
+            throw error;
         }
-        return user;
     },
 
-    createUser: (userDTO) => {
-        const newUser = new User(userDTO);
-        users.push(newUser);
-        return newUser;
+    createUser: async (userDTO) => {
+        try {
+            const newUser = await User.create(userDTO);
+            return newUser;
+        } catch (error) {
+            throw error;
+        }
     },
 
-    updateUser: (id, userDTO) => {
-        const userIdx = users.findIndex(user => user.id === id);
-        if (userIdx === -1) {
-            throw 404;
+    updateUser: async (id, userDTO) => {
+        try {
+            const updatedUser = await User.update(userDTO, {
+                where: {
+                    id
+                }
+            });
+            return updatedUser;
+        } catch (error) {
+            throw error;
         }
-        users[userIdx] = { ...users[userIdx], ...userDTO };
-        return users[userIdx];
     },
 
-    removeUser: (id) => {
-        const user = users.find(usr => usr.id === id);
-        if (!user) {
-            throw 404;
+    removeUser: async (id) => {
+        try {
+            const updatedUser = await User.update({ isDeleted: true }, {
+                where: {
+                    id
+                }
+            });
+            return updatedUser;
+        } catch (error) {
+            throw error;
         }
-        user.isDeleted = true;
-        return true;
     }
 };

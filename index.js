@@ -1,13 +1,30 @@
 import express, { json } from 'express';
 import { apiRouter } from './api';
+import { sequelize } from './sequelize';
 
-const app = express();
+async function assertDatabaseConnectionOk() {
+    try {
+        await sequelize.authenticate();
+        console.log('Database connection OK!');
+    } catch (error) {
+        console.log('Unable to connect to the database:');
+        console.log(error.message);
+        process.exit(1);
+    }
+}
 
-const port = 3005;
+async function init() {
+    await assertDatabaseConnectionOk();
+    const port = process.env.PORT || 3005;
 
-app.use(json());
-app.use('/api', apiRouter);
+    const app = express();
 
-app.listen(port, () => {
-    console.log(`Server is running at ${port}`);
-});
+    app.use(json());
+    app.use('/api', apiRouter);
+
+    app.listen(port, () => {
+        console.log(`Server is running at ${port}`);
+    });
+}
+
+init();
