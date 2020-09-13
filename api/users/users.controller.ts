@@ -1,17 +1,18 @@
 import { usersService } from './users.service';
+import { Request, Response } from 'express';
 
 export const usersController = {
-    getUsers: async (req, res) => {
-        const { loginSubstring, limit } = req.query;
+    getUsers: async (req: Request, res: Response) => {
+        const { loginSubstring, limit } = req.query as { loginSubstring: string, limit: string };
         try {
-            const users = await usersService.getUsers(loginSubstring, limit);
+            const users = await usersService.getUsers(loginSubstring, +limit);
             res.json(users);
         } catch (error) {
             res.status(500).json(error);
         }
     },
 
-    getUserById: async (req, res) => {
+    getUserById: async (req: Request, res: Response) => {
         try {
             const user = await usersService.getUserById(req.params.id);
             if (user) {
@@ -24,7 +25,7 @@ export const usersController = {
         }
     },
 
-    createUser: async (req, res) => {
+    createUser: async (req: Request, res: Response) => {
         try {
             const newUser = await usersService.createUser(req.body);
             res.json(newUser);
@@ -33,7 +34,7 @@ export const usersController = {
         }
     },
 
-    updateUser: async (req, res) => {
+    updateUser: async (req: Request, res: Response) => {
         try {
             const user = await usersService.updateUser(req.params.id, req.body);
             res.json(user);
@@ -42,7 +43,7 @@ export const usersController = {
         }
     },
 
-    removeUser: async (req, res) => {
+    removeUser: async (req: Request, res: Response) => {
         try {
             const removed = await usersService.removeUser(req.params.id);
             res.json(removed);

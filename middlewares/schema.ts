@@ -1,4 +1,7 @@
-export const validateSchema = (schema) => (req, res, next) => {
+import { Schema } from "joi";
+import { Request, Response, NextFunction } from 'express';
+
+export const validateSchema = (schema: Schema) => (req: Request, res: Response, next: NextFunction) => {
     const { error } = schema.validate(req.body, {
         abortEarly: false,
         allowUnknown: false
