@@ -1,10 +1,11 @@
-import { User, UserDTO } from './user.model';
+import { UserDTO } from './user.dto';
 import { Op } from 'sequelize';
+import { db } from '../db';
 
 export const usersService = {
     getUsers: async (loginSubstring: string, limit: number) => {
         if (loginSubstring && limit) {
-            return await User.findAll({
+            return await db.User.findAll({
                 where: {
                     login: {
                         [Op.like]: `${loginSubstring}%`
@@ -14,12 +15,12 @@ export const usersService = {
                 limit
             });
         }
-        return await User.findAll();
+        return [];
     },
 
     getUserById: async (id: string) => {
         try {
-            return await User.findByPk(id);
+            return await db.User.findByPk(id);
         } catch (error) {
             throw error;
         }
@@ -27,7 +28,7 @@ export const usersService = {
 
     createUser: async (userDTO: UserDTO) => {
         try {
-            const newUser = await User.create(userDTO);
+            const newUser = await db.User.create(userDTO);
             return newUser;
         } catch (error) {
             throw error;
@@ -36,7 +37,7 @@ export const usersService = {
 
     updateUser: async (id: string, userDTO: UserDTO) => {
         try {
-            const updatedUser = await User.update(userDTO, {
+            const updatedUser = await db.User.update(userDTO, {
                 where: {
                     id
                 }
@@ -49,7 +50,7 @@ export const usersService = {
 
     removeUser: async (id: string) => {
         try {
-            const updatedUser = await User.update({ isDeleted: true }, {
+            const updatedUser = await db.User.update({ isDeleted: true }, {
                 where: {
                     id
                 }
