@@ -2,29 +2,29 @@ import { Group } from './../db/models/group';
 import { GroupDTO } from './group.dto';
 import { db } from '../db';
 
-class GroupsService {
-    getGroups = async () => {
+export const groupsService = {
+    getGroups: async () => {
         return await db.Group.findAll();
-    };
+    },
 
-    getGroupById = async (id: string) => {
+    getGroupById: async (id: string) => {
         try {
             return await db.Group.findByPk(id);
         } catch (error) {
             throw error;
         }
-    };
+    },
 
-    createGroup = async (groupDTO: GroupDTO) => {
+    createGroup: async (groupDTO: GroupDTO) => {
         try {
             const newGroup = await db.Group.create(groupDTO);
             return newGroup;
         } catch (error) {
             throw error;
         }
-    };
+    },
 
-    updateGroup = async (id: string, groupDTO: GroupDTO) => {
+    updateGroup: async (id: string, groupDTO: GroupDTO) => {
         try {
             const updatedGroup = await db.Group.update(groupDTO, {
                 where: {
@@ -35,9 +35,9 @@ class GroupsService {
         } catch (error) {
             throw error;
         }
-    };
+    },
 
-    removeGroup = async (id: string) => {
+    removeGroup: async (id: string) => {
         try {
             const removedGroup = await db.Group.destroy({
                 where: {
@@ -48,9 +48,9 @@ class GroupsService {
         } catch (error) {
             throw error;
         }
-    };
+    },
 
-    addUsersToGroup = async (group: Group, userIds: string[]) => {
+    addUsersToGroup: async (group: Group, userIds: string[]) => {
         const transaction = await db.sequelize.transaction();
         try {
             await Promise.all(
@@ -71,7 +71,5 @@ class GroupsService {
         //     groupId: group.id
         // })));
         // return res;
-    };
-}
-
-export const groupsService = new GroupsService();
+    }
+};
