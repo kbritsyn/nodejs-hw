@@ -1,10 +1,10 @@
 import express, { json } from 'express';
 import { apiRouter } from './api';
-import { sequelize } from './sequelize';
+import { db } from './api/db';
 
 async function assertDatabaseConnectionOk() {
     try {
-        await sequelize.authenticate();
+        await db.sequelize.authenticate();
         console.log('Database connection OK!');
     } catch (error) {
         console.log('Unable to connect to the database:');
