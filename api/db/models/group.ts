@@ -21,7 +21,7 @@ export class Group extends Model<GroupAttributes, GroupCreationAttributes> imple
 export const initGroup = (sequelize: Sequelize) => {
     Group.init({
         id: {
-            type: DataTypes.STRING,
+            type: DataTypes.UUID,
             primaryKey: true,
             defaultValue: uuid
         },
