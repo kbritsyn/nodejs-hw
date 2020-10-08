@@ -35,8 +35,13 @@ export const groupsController = {
 
     updateGroup: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const group = await groupsService.updateGroup(req.params.id, req.body);
-            res.json(group);
+            const group = await groupsService.getGroupById(req.params.id);
+            if (group) {
+                const result = await groupsService.updateGroup(group, req.body);
+                res.json(result);
+            } else {
+                res.status(404).json();
+            }
         } catch (error) {
             return next(error);
         }
@@ -44,8 +49,13 @@ export const groupsController = {
 
     removeGroup: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const removed = await groupsService.removeGroup(req.params.id);
-            res.json(removed);
+            const group = await groupsService.getGroupById(req.params.id);
+            if (group) {
+                const result = await groupsService.removeGroup(group);
+                res.json(result);
+            } else {
+                res.status(404).json();
+            }
         } catch (error) {
             return next(error);
         }

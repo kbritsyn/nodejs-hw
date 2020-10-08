@@ -1,6 +1,7 @@
 import { UserDTO } from './user.dto';
 import { Op } from 'sequelize';
 import { db } from '../db';
+import { User } from '../db/models/user';
 
 export const usersService = {
     getUsers: async (loginSubstring: string, limit: number) => {
@@ -35,27 +36,23 @@ export const usersService = {
         }
     },
 
-    updateUser: async (id: string, userDTO: UserDTO) => {
+    updateUser: async (user: User, userDTO: UserDTO) => {
         try {
-            const updatedUser = await db.User.update(userDTO, {
-                where: {
-                    id
-                }
-            });
+            (Object.keys(userDTO) as Array<keyof UserDTO>).forEach(key => {
+                (user as any)[key] = userDTO[key];
+            })
+            const updatedUser = await user.save();
             return updatedUser;
         } catch (error) {
             throw error;
         }
     },
 
-    removeUser: async (id: string) => {
+    removeUser: async (user: User) => {
         try {
-            const updatedUser = await db.User.update({ isDeleted: true }, {
-                where: {
-                    id
-                }
-            });
-            return updatedUser;
+            user.isDeleted = true;
+            const removedUser = await user.save();
+            return removedUser;
         } catch (error) {
             throw error;
         }

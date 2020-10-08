@@ -36,8 +36,13 @@ export const usersController = {
 
     updateUser: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user = await usersService.updateUser(req.params.id, req.body);
-            res.json(user);
+            const user = await usersService.getUserById(req.params.id);
+            if (user) {
+                const updated = await usersService.updateUser(user, req.body);
+                res.json(updated);
+            } else {
+                res.status(404).json();
+            }
         } catch (error) {
             return next(error);
         }
@@ -45,8 +50,13 @@ export const usersController = {
 
     removeUser: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const removed = await usersService.removeUser(req.params.id);
-            res.json(removed);
+            const user = await usersService.getUserById(req.params.id);
+            if (user) {
+                const removed = await usersService.removeUser(user);
+                res.json(removed);
+            } else {
+                res.status(404).json();
+            }
         } catch (error) {
             return next(error);
         }

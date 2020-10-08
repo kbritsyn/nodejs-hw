@@ -24,27 +24,22 @@ export const groupsService = {
         }
     },
 
-    updateGroup: async (id: string, groupDTO: GroupDTO) => {
+    updateGroup: async (group: Group, groupDTO: GroupDTO) => {
         try {
-            const updatedGroup = await db.Group.update(groupDTO, {
-                where: {
-                    id
-                }
-            });
+            (Object.keys(groupDTO) as Array<keyof GroupDTO>).forEach(key => {
+                group[key] = groupDTO[key] as any;
+            })
+            const updatedGroup = await group.save();
             return updatedGroup;
         } catch (error) {
             throw error;
         }
     },
 
-    removeGroup: async (id: string) => {
+    removeGroup: async (group: Group) => {
         try {
-            const removedGroup = await db.Group.destroy({
-                where: {
-                    id
-                }
-            });
-            return removedGroup;
+            await group.destroy();
+            return true;
         } catch (error) {
             throw error;
         }
