@@ -1,17 +1,18 @@
 import { Router } from 'express';
 import { groupsController } from './groups.controller';
+import { errorLogger } from '../../middlewares/error-logger';
 
 const groupsRouter = Router();
 
 groupsRouter.route('/')
-    .get(groupsController.getGroups)
-    .post(groupsController.createGroup);
+    .get(errorLogger(groupsController.getGroups))
+    .post(errorLogger(groupsController.createGroup));
 
 groupsRouter.route('/:id')
-    .get(groupsController.getGroupById)
-    .put(groupsController.updateGroup)
-    .delete(groupsController.removeGroup);
+    .get(errorLogger(groupsController.getGroupById))
+    .put(errorLogger(groupsController.updateGroup))
+    .delete(errorLogger(groupsController.removeGroup));
 
-groupsRouter.get('/:id/add-users', groupsController.addUsersToGroup);
+groupsRouter.get('/:id/add-users', errorLogger(groupsController.addUsersToGroup));
 
 export { groupsRouter };

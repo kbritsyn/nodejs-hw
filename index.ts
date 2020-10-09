@@ -1,6 +1,7 @@
 import express, { json } from 'express';
 import { apiRouter } from './api';
 import { db } from './api/db';
+import { initLogger } from './logger';
 
 async function assertDatabaseConnectionOk() {
     try {
@@ -27,4 +28,8 @@ async function init() {
     });
 }
 
+const logger = initLogger();
+
 init();
+
+export { logger };
