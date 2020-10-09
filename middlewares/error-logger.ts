@@ -5,7 +5,7 @@ export const errorLogger = (controller: Function) => async (req: Request, res: R
     try {
         await controller(req, res, next);
     } catch (error) {
-        logger.error(`${controller.name}: ${error}`);
+        logger.error(`Exception in ${controller.name}: ${req.method} ${req.url} ${req.body}`);
         return next(error);
     }
 };

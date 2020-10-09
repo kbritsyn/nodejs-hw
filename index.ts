@@ -29,7 +29,6 @@ async function init() {
 }
 
 const logger = initLogger();
-process.on('unhandledRejection', (error) => console.log(error));
 
 init();
 

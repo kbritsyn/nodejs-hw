@@ -27,5 +27,8 @@ export const initLogger = () => {
         }));
     }
 
+    process.on('unhandledRejection', console.log);
+    process.on('unhandledRejection', logger.error);
+
     return logger;
 };

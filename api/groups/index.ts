@@ -6,12 +6,12 @@ const groupsRouter = Router();
 
 groupsRouter.route('/')
     .get(errorLogger(groupsController.getGroups))
-    .post(groupsController.createGroup);
+    .post(errorLogger(groupsController.createGroup));
 
 groupsRouter.route('/:id')
-    .get(groupsController.getGroupById)
-    .put(groupsController.updateGroup)
-    .delete(groupsController.removeGroup);
+    .get(errorLogger(groupsController.getGroupById))
+    .put(errorLogger(groupsController.updateGroup))
+    .delete(errorLogger(groupsController.removeGroup));
 
 groupsRouter.get('/:id/add-users', errorLogger(groupsController.addUsersToGroup));
 
