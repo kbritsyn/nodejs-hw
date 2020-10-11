@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { logger } from '..';
+import { logger } from '../..';
 
 export const errorLogger = (controller: Function) => async (req: Request, res: Response, next: NextFunction) => {
     try {
