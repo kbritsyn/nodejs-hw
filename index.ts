@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import { apiRouter } from './api';
 import { db } from './api/db';
 import { initLogger } from './logger';
+import cors from 'cors';
 
 async function assertDatabaseConnectionOk() {
     try {
@@ -20,6 +21,7 @@ async function init() {
 
     const app = express();
 
+    app.use(cors());
     app.use(json());
     app.use('/api', apiRouter);
 
