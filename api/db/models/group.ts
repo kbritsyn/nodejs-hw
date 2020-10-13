@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { DataTypes, Optional, Model, Sequelize } from 'sequelize';
+import { DataTypes, Optional, Model, Sequelize, HasManyAddAssociationMixin } from 'sequelize';
+import { User } from './user';
 
 export type Permission = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
 
@@ -16,6 +17,8 @@ export class Group extends Model<GroupAttributes, GroupCreationAttributes> imple
     public id!: string;
     public name!: string;
     public permissions!: Permission[];
+
+    public addUsers!: HasManyAddAssociationMixin<User[] | string[], number>;
 }
 
 export const initGroup = (sequelize: Sequelize) => {
